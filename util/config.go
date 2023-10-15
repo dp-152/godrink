@@ -25,13 +25,22 @@ type ServerConfigData struct {
 	Tls  *TlsConfigData `yaml:"tls" json:"tls"`
 }
 
+type DatabaseTlsConfigData struct {
+	Enabled    bool   `yaml:"enabled" json:"enabled" env:"GODRINK_DATABASE_TLS_ENABLED"`
+	SkipVerify bool   `yaml:"skip-verify" json:"skipVerify" env:"GODRINK_DATABASE_TLS_SKIP_VERIFY"`
+	Ca         string `yaml:"ca" json:"ca" env:"GODRINK_DATABASE_TLS_CA"`
+	Cert       string `yaml:"cert" json:"cert" env:"GODRINK_DATABASE_TLS_CERT"`
+	Key        string `yaml:"key" json:"key" env:"GODRINK_DATABASE_TLS_KEY"`
+}
+
 type DatabaseConfigData struct {
-	Dialect string `yaml:"dialect" json:"dialect" env:"GODRINK_DATABASE_DIALECT"`
-	Host    string `yaml:"host" json:"host" env:"GODRINK_DATABASE_HOST"`
-	Port    string `yaml:"port" json:"port" env:"GODRINK_DATABASE_PORT"`
-	User    string `yaml:"user" json:"user" env:"GODRINK_DATABASE_USER"`
-	Pass    string `yaml:"pass" json:"pass" env:"GODRINK_DATABASE_PASS"`
-	Name    string `yaml:"name" json:"name" env:"GODRINK_DATABASE_NAME"`
+	Dialect string                 `yaml:"dialect" json:"dialect" env:"GODRINK_DATABASE_DIALECT"`
+	Host    string                 `yaml:"host" json:"host" env:"GODRINK_DATABASE_HOST"`
+	Port    string                 `yaml:"port" json:"port" env:"GODRINK_DATABASE_PORT"`
+	User    string                 `yaml:"user" json:"user" env:"GODRINK_DATABASE_USER"`
+	Pass    string                 `yaml:"pass" json:"pass" env:"GODRINK_DATABASE_PASS"`
+	Name    string                 `yaml:"name" json:"name" env:"GODRINK_DATABASE_NAME"`
+	Tls     *DatabaseTlsConfigData `yaml:"tls" json:"tls"`
 }
 
 type ConfigData struct {
@@ -65,6 +74,10 @@ var config = &ConfigData{
 		User:    "postgres",
 		Pass:    "postgres",
 		Name:    "postgres",
+		Tls: &DatabaseTlsConfigData{
+			Enabled:    true,
+			SkipVerify: true,
+		},
 	},
 }
 
